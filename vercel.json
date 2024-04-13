@@ -1,5 +1,3 @@
-
-
 {
     "builds": [{
         "src": "ost_placement/wsgi.py",
