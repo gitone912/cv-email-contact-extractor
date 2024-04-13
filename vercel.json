@@ -1,0 +1,15 @@
+
+
+{
+    "builds": [{
+        "src": "ost_placement/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "ost_placement/wsgi.py"
+        }
+    ]
+}
