@@ -5,7 +5,9 @@ import os
 import tempfile
 import openpyxl
 from .nlp import *
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def extract_text_from_pdf(pdf_file):
     with tempfile.NamedTemporaryFile(delete=False) as tmp_pdf:
         for chunk in pdf_file.chunks():
@@ -21,6 +23,7 @@ def extract_text_from_pdf(pdf_file):
     os.unlink(tmp_pdf_path)  # Clean up temporary file
     return text
 
+@csrf_exempt
 def upload_cv(request):
     if request.method == 'POST' and request.FILES.getlist('cv_files'):
         cv_data = []
@@ -35,6 +38,8 @@ def upload_cv(request):
 
     return render(request, 'upload_cv.html')
 
+
+@csrf_exempt
 def export_to_excel(request):
     if request.method == 'POST' and 'export' in request.POST:
         cv_data = request.POST.getlist('cv_data[]')  # Adjust here to get a list
