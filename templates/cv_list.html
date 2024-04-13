@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Data</title>
+    <!-- Add Bootstrap CSS link -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Add custom CSS styles for better readability */
+        .cv-text {
+            max-height: 100px; /* Limit overall text height */
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">OST</a>
+            <span class="navbar-text mx-auto">Made by Akash Verma</span>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <form method="post" action="{% url 'export_to_excel' %}" class="mb-4">
+            {% csrf_token %}
+            {% for cv in cv_data %}
+            <input type="hidden" name="cv_data[]" value="{{ cv }}">
+            {% endfor %}
+            <button type="submit" name="export" class="btn btn-primary">Export to Excel</button>
+        </form>
+
+        <h1 class="my-4">CV Data</h1>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Overall Text</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cv in cv_data %}
+                <tr>
+                    <td>{{ cv.email }}</td>
+                    <td>{{ cv.phone_num }}</td>
+                    <td>
+                        <div class="cv-text">{{ cv.overall_text }}</div>
+                        {% if cv.overall_text|length > 100 %}
+                        <a href="#" class="read-more">Read More</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Bootstrap JS script for Read More functionality -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.read-more').click(function(event){
+                event.preventDefault();
+                $(this).prev('.cv-text').css('max-height', 'none');
+                $(this).remove();
+            });
+        });
+    </script>
+</body>
+</html>
