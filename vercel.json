@@ -1,13 +1,17 @@
 {
-    "builds": [{
-        "src": "ost_placement/wsgi.py",
+    "version": 2,
+    "builds": [
+      {
+        "src": "default/settings/wsgi.py",
         "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb" ,"runtime": "python3.10"}
-    }],
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+      }
+    ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "ost_placement/wsgi.py"
-        }
+      {
+        "src": "/(.*)",
+        "dest": "default/settings/wsgi.py"
+      }
     ]
-}
+  }
+  
